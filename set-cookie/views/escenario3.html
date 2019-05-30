@@ -13,11 +13,11 @@
       <span id="cookie-message">{{ cookieMessage }}</span>
     </p>
     <button id="set-cookie-btn">Set cookie</button>
+
     <script>
       (function() {
         const setCookieBtn = document.getElementById("set-cookie-btn");
         setCookieBtn.addEventListener("click", onSetCookieBtnClick);
-
         function onSetCookieBtnClick() {
           var callbackUrl = "/escenario/3/1";
           var url = `/set-cookie?cb=${encodeURIComponent(callbackUrl)}`;
@@ -32,17 +32,12 @@
         }
 
         function onCookieWindowUnload(cw) {
-          fetch("/check-cookie", {
-            credentials: "include",
-            headers: {
-              cookie: cw.document.cookies
-            }
-          })
-            .then(res => res.json())
-            .then(res => {
-              document.getElementById("cookie-message").innerHTML =
-                res.myCookie || "Still nothing";
-            });
+          var cookies = cw.document.cookie;
+          console.log("cookies", cookies);
+          if (cookies && cookies.includes("my-cookie")) {
+            console.log("Reload");
+            window.location.reload(true);
+          }
         }
       })();
     </script>
