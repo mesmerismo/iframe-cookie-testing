@@ -17,12 +17,13 @@ Instalar dependencias con `npm install`.
 Lanzar servidor con `npm start`.
 
 Añadir entrada al host para que redirija a localhost.
+El proyecto está preparado para funcionar con `herma.test`.
 
-Acceder a `http://mi-dominio:5000/escenario/1`
+Acceder a `http://herma.test:5000/escenario/1`
 
-Acceder a `http://mi-dominio:5000/escenario/2`
+Acceder a `http://herma.test:5000/escenario/2`
 
-Acceder a `http://mi-dominio:5000/escenario/3`
+Acceder a `http://herma.test:5000/escenario/3`
 
 ### redirect-iframe
 
