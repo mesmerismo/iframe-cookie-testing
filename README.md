@@ -5,6 +5,7 @@
 - set-cookie
 - redirect-iframe
 - proxy
+- google-maps
 
 Cada proyecto propone diversos escenarios descritos en comentarios en `server.js`.
 
@@ -50,3 +51,7 @@ Lanzar servidor con `npm start`.
 Acceder a `http://localhost:5002/escenario/3`
 
 Acceder a `http://localhost:5002/escenario/4`
+
+### google-map
+
+Una web sencilla que carga Google Maps en un iframe para poder comparar el comportamiento con el resto de ejemplos.
