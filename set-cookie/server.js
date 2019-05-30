@@ -15,22 +15,13 @@ app.set("views", path.join(__dirname, "views"));
 
 app.get("/set-cookie", (req, res) => {
   const { cb: callbackUrl = "/escenario/1" } = req.query;
-  var refPath =
-    "/" +
-    req
-      .header("Referer")
-      .split("/")
-      .slice(3)
-      .join("/");
-  console.log("signedCookies");
   res
     .cookie(COOKIE_NAME, "This is a cookie message", {
       domain: ".herma.test",
-      path: refPath,
-      httpOnly: true,
-      secure: false,
-      sameSite: true,
-      maxAge: 1000 * 60 * 60 * 24
+      httpOnly: false /* Accessible to JS */,
+      secure: false /* Allow HTTP */,
+      sameSite: true /* Must be same domain */,
+      maxAge: 1000 * 60 * 60 * 24 /* Expires in 24 h */
     })
     .redirect(callbackUrl);
 });
@@ -43,7 +34,6 @@ app.get("/set-cookie", (req, res) => {
   deshabilitadas las cookies de terceros.
 */
 app.get("/escenario/1", (req, res) => {
-  console.log("signedCookies", req.signedCookies);
   const myCookie = req.cookies[COOKIE_NAME];
   const cookieMessage =
     myCookie != null ? myCookie : "Cookie my-cookie was not set";
