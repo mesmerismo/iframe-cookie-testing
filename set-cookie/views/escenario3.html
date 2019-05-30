@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Set cookie - Escenario 3</title>
+  </head>
+  <body>
+    <h1>IFrame Escenario 3</h1>
+    <p>
+      Does the cookie have value?
+      <span id="cookie-message">{{ cookieMessage }}</span>
+    </p>
+    <button id="set-cookie-btn">Set cookie</button>
+    <script>
+      (function() {
+        const setCookieBtn = document.getElementById("set-cookie-btn");
+        setCookieBtn.addEventListener("click", onSetCookieBtnClick);
+
+        function onSetCookieBtnClick() {
+          var callbackUrl = "/escenario/3/1";
+          var url = `/set-cookie?cb=${encodeURIComponent(callbackUrl)}`;
+          var cookieWindow = window.open(url);
+
+          if (cookieWindow) {
+            cookieWindow.addEventListener(
+              "unload",
+              onCookieWindowUnload.bind(null, cookieWindow)
+            );
+          }
+        }
+
+        function onCookieWindowUnload(cw) {
+          fetch("/check-cookie", {
+            credentials: "include",
+            headers: {
+              cookie: cw.document.cookies
+            }
+          })
+            .then(res => res.json())
+            .then(res => {
+              document.getElementById("cookie-message").innerHTML =
+                res.myCookie || "Still nothing";
+            });
+        }
+      })();
+    </script>
+  </body>
+</html>

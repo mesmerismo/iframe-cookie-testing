@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Proxy - Escenario 5</title>
+  </head>
+  <body>
+    <h1>Proxy - Escenario 5</h1>
+    <div id="app"></div>
+
+    <script>
+      (function() {
+        init(document.getElementById("app"));
+
+        function init(app) {
+          return getCookie()
+            .then(getPage, handleError(app))
+            .then(insertPageContent(app), handleError(app));
+        }
+
+        function handleError(app) {
+          return error => {
+            app.innerHTML = `${error.status}: ${error.data}`;
+            return Promise.reject(error);
+          };
+        }
+
+        function getCookie() {
+          return fetch("http://herma.test:5000/set-cookie", {
+            mode: "cors",
+            redirect: "manual"
+          }).then(cookieResponse => {
+            if (cookieResponse.type != "opaqueredirect") {
+              return Promise.reject({
+                status: 500,
+                data: "Expected redirect attempt"
+              });
+            }
+
+            var cookie = cookieResponse.headers["set-cookie"];
+            if (!cookie) {
+              return Promise.reject({ status: 500, data: "No cookie found" });
+            }
+
+            return cookie;
+          });
+        }
+
+        function getPage(cookie) {
+          return fetch("http://herma.test:5000/escenario/1", {
+            mode: "cors",
+            headers: { cookie }
+          }).then(pageResponse => pageResponse.data);
+        }
+
+        function insertPageContent(app) {
+          return page => {
+            var parser = new DOMParser();
+            var parsedPage = parser.parseFromString(page, "text/html");
+            var pageBody = parsedPage.querySelector("body");
+            var content = pageBody.innerHTML;
+            app.innerHTML = content;
+          };
+        }
+      })();
+    </script>
+  </body>
+</html>
