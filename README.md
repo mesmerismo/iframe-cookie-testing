@@ -55,3 +55,17 @@ Acceder a `http://localhost:5002/escenario/4`
 ### google-map
 
 Una web sencilla que carga Google Maps en un iframe para poder comparar el comportamiento con el resto de ejemplos.
+
+### window-error
+
+Proyecto para poder probar la emisión de eventos desde un iframe a la ventana superior.
+
+Instalar dependencias con `npm install`.
+
+Lanzar servidor con `npm start`.
+
+Acceder a `http://herma.test:5000`
+
+Hacer click en el enlace "Another page" para lanzar el evento.
+
+Verifica que el dato del evento coincide con el mostrado en el iframe.

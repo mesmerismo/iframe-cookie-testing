@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Another</title>
+  </head>
+  <body>
+    <h1>This is another page!</h1>
+    <div id="notice"></div>
+    <script>
+      (function() {
+        var hermaStatus = {
+          code: 400,
+          text: "You did something wrong"
+        };
+        window.top.postMessage(hermaStatus, "http://herma.test:5000");
+        var jsonStatus = JSON.stringify(hermaStatus, null, 4);
+        var h2 = document.getElementById("notice");
+        h2.innerHTML = `Status message dispatched <br /> <code><pre>${jsonStatus}</pre></code>`;
+      })();
+    </script>
+  </body>
+</html>
