@@ -28,7 +28,7 @@ app.get("/escenario/1", function(req, res) {
   debería ser capaz de leer la cookie.
 */
 app.get("/escenario/2", (req, res) => {
-  var url = "http://localhost:5001/escenario/2/1";
+  var url = "http://herma.test:5001/escenario/2/1";
   res.redirect(
     `http://herma.test:5000/set-cookie?cb=${encodeURIComponent(url)}`
   );
